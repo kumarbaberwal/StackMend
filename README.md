@@ -15,10 +15,9 @@ The repository consists of the following directories:
 Ensure you have the following installed on your system:
 
 - [Node.js](https://nodejs.org/) (latest LTS recommended)
-- [Expo CLI](https://docs.expo.dev/get-started/installation/)
 - [Next.js](https://nextjs.org/docs/getting-started)
 - [Git](https://git-scm.com/)
-- [PostgreSQL](https://www.postgresql.org/) (if the backend uses a database)
+- [MongoDB](https://www.mongodb.com/try/download/community)
 
 ## Setup Instructions
 
@@ -85,7 +84,7 @@ npm run dev  # Start the Next.js server
 
 ## Issues & Discussions
 
-- If you find a bug, report it under [Issues](https://github.com/your-repo-name/issues).
+- If you find a bug, report it under [Issues](https://github.com/kumarbaberwal/StackMend/issues).
 - If you want to discuss a new feature, create a discussion post first.
 
 ---
