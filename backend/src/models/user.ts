@@ -20,6 +20,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: '',
     },
+    reputation: {
+        type: Number,
+        default: 0,
+    },
+    role: {
+        type: String,
+        enum: ['user', 'moderator', 'admin'],
+        default: 'user',
+    },
 }, { timestamps: true });
 
 export const User = mongoose.model('User', userSchema);
