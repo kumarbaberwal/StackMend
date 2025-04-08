@@ -1,6 +1,24 @@
 import { Stack } from "expo-router";
 import '@/app/global.css';
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView
+        className="flex-1"
+      >
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="questions/[id]" />
+        </Stack>
+      </SafeAreaView>
+      <StatusBar style={'auto'} />
+    </SafeAreaProvider>
+  );
 }
