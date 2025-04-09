@@ -1,16 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { Redirect } from 'expo-router'
 
-export default function Index() {
+export default function Menu() {
   return (
-    <View
-      className='flex-1 items-center justify-center'
-    >
-      <Text
-        className='text-3xl font-bold text-black'
-      >
-        Index
-      </Text>
+    <View>
+      <Text className='text-text'>Menu</Text>
+      {/* <Redirect href={'/auth'} /> */}
     </View>
   )
 }

@@ -14,8 +14,9 @@ export default function RootLayout() {
             headerShown: false,
           }}
         >
+          <Stack.Screen name="(auth)" />
           <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="questions/[id]" />
+          <Stack.Screen name="errors/[id]" />
         </Stack>
       </SafeAreaView>
       <StatusBar style={'auto'} />
