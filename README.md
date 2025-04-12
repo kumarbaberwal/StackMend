@@ -42,7 +42,7 @@ npm run dev  # Start the development server
 ```sh
 cd ../mobile
 npm install  # Install dependencies
-expo start  # Start the Expo server
+npx expo start  # Start the Expo server
 ```
 
 - Scan the QR code using the Expo Go app to run it on a physical device.
