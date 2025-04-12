@@ -19,10 +19,14 @@ export default function Login() {
       className='flex-1'
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+
+
       {/* Card View */}
       <View
         className='flex-grow bg-white justify-center p-5'
       >
+
+        
         {/* <View
           className='items-center w-[100%]'
         >
@@ -39,6 +43,8 @@ export default function Login() {
           <View
             className='mb-4'
           >
+
+
             {/* Email Input */}
             <View
               className='mb-5'
