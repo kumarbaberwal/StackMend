@@ -19,7 +19,7 @@ export default function RootLayout() {
           <Stack.Screen name="errors/[id]" />
         </Stack>
       </SafeAreaView>
-      <StatusBar style={'auto'} />
+      <StatusBar style={'auto'} backgroundColor="white" />
     </SafeAreaProvider>
   );
 }

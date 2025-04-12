@@ -1,7 +1,8 @@
-import { View, Text, KeyboardAvoidingView, Platform, Image, Dimensions, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, Image, Dimensions, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { images } from '@/constants/images';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Link } from 'expo-router';
 const { width } = Dimensions.get('window')
 
 export default function Login() {
@@ -9,6 +10,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => { }
 
@@ -18,10 +20,10 @@ export default function Login() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {/* Card View */}
-      {/* <View
-        className='flex-1 justify-center items-center px-5'
-      > */}
-      {/* <View
+      <View
+        className='flex-grow bg-white justify-center p-5'
+      >
+        {/* <View
           className='items-center w-[100%]'
         >
           <Image
@@ -31,52 +33,53 @@ export default function Login() {
           />
         </View> */}
 
-      <View
-        className='bg-white rounded-2xl p-6 shadow-xl border border-gray-400'
-      >
         <View
-          className=''
+          className='bg-gray-100 rounded-2xl p-6 shadow-black shadow-xl border-2 border-gray-400'
         >
-          {/* Email Input */}
           <View
-            className=''
+            className='mb-4'
           >
-            <Text
-              className='text-xl font-medium text-gray-800'
-            >
-              Email
-            </Text>
+            {/* Email Input */}
             <View
-              className='flex-row items-center bg-gray-50 border border-gray-300 rounded-xl px-3 py-2'
+              className='mb-5'
             >
-              <Ionicons
-                name='mail-outline'
-                size={20}
-                color={'#000'}
-                className='mr-2'
-              />
-              <TextInput
-                className='flex-1 text-gray-800'
-                placeholder='Enter you email'
-                placeholderClassName='text-gray-400'
-                value={email}
-                onChangeText={setEmail}
-                keyboardType='email-address'
-                autoCapitalize='none'
-              />
+              <Text
+                className='text-base mb-2 font-medium text-gray-800'
+              >
+                Email
+              </Text>
+              <View
+                className='flex-row items-center bg-gray-50 border border-gray-300 rounded-xl px-3'
+              >
+                <Ionicons
+                  name='mail-outline'
+                  size={20}
+                  color={'#000'}
+                  className='mr-2'
+                />
+                <TextInput
+                  className='flex-1 h-14 text-gray-800'
+                  placeholder='Enter you email'
+                  placeholderClassName='text-gray-400'
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType='email-address'
+                  autoCapitalize='none'
+                />
+              </View>
             </View>
 
             {/* Password Input */}
             <View
-              className='mt-5'
+              className='mb-5'
             >
               <Text
-                className='text-xl font-medium text-gray-800'
+                className='text-base mb-2 font-medium text-gray-800'
               >
                 Password
               </Text>
               <View
-                className='flex-row items-center bg-gray-50 border border-gray-300 rounded-xl px-3 py-2'
+                className='flex-row items-center bg-gray-50 border border-gray-300 rounded-xl px-3'
               >
                 <Ionicons
                   name='lock-closed-outline'
@@ -85,16 +88,19 @@ export default function Login() {
                   className='mr-2'
                 />
                 <TextInput
-                  className='flex-1 text-gray-800'
-                  placeholder='Enter you email'
+                  className='flex-1 h-14 text-gray-800'
+                  placeholder='Enter you password'
                   placeholderClassName='text-gray-400'
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
-                  keyboardType='email-address'
                   autoCapitalize='none'
                 />
-                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className="p-1">
+
+                {/* Toggle Password Icon */}
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                >
                   <Ionicons
                     name={showPassword ? 'eye-outline' : 'eye-off-outline'}
                     size={20}
@@ -103,10 +109,47 @@ export default function Login() {
                 </TouchableOpacity>
               </View>
             </View>
+
+
+            {/* Login Button */}
+
+            <TouchableOpacity
+              className='bg-blue-400 rounded-xl h-14 justify-center items-center mt-4 shadow-2xl shadow-blue-950'
+              onPress={handleLogin}
+              disabled={isLoading}
+            >
+              {
+                isLoading ? (
+                  <ActivityIndicator color={'white'} />
+                ) : (
+                  <Text
+                    className='text-white text-base font-semibold'
+                  >
+                    Login
+                  </Text>
+                )
+              }
+            </TouchableOpacity>
+
+
+            {/* Footer */}
+
+            <View className='flex-row justify-center mt-6'>
+              <Text className='mr-1 text-gray-700'>
+                Don't have an account?
+              </Text>
+              <Link href={'/(auth)/signup'} asChild>
+                <TouchableOpacity>
+                  <Text className='font-semibold text-gray-600' >
+                    Sign Up
+                  </Text>
+                </TouchableOpacity>
+              </Link>
+            </View>
+
           </View>
         </View>
       </View>
-      {/* </View> */}
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   )
 }
