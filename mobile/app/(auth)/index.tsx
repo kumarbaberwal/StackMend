@@ -21,12 +21,12 @@ export default function Login() {
     >
 
 
-      {/* Card View */}
+      {/* Container View */}
       <View
         className='flex-grow bg-white justify-center p-5'
       >
 
-        
+
         {/* <View
           className='items-center w-[100%]'
         >
@@ -37,13 +37,32 @@ export default function Login() {
           />
         </View> */}
 
+        {/* Card View */}
+
         <View
           className='bg-gray-100 rounded-2xl p-6 shadow-black shadow-xl border-2 border-gray-400'
         >
+
+
+          {/* Header */}
+
+          <View className='items-center mb-3'>
+
+            <Text className='text-4xl font-bold mb-2 text-black'>
+              StackMend ⚠️
+            </Text>
+
+            <Text className='text-base text-center text-gray-600'>
+              Find your solution
+            </Text>
+
+          </View>
+
+
+          {/* Form Container */}
           <View
             className='mb-4'
           >
-
 
             {/* Email Input */}
             <View
