@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const CommentSchema = new mongoose.Schema({
-    questionId: {
+    errorId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question',
+        ref: 'Error',
         required: true,
     },
     userId: {

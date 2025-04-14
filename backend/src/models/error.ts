@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const QuestionSchema = new mongoose.Schema({
+const ErrorSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -36,4 +36,4 @@ const QuestionSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-export const Question = mongoose.model('Question', QuestionSchema);
+export const Error = mongoose.model('Error', ErrorSchema);

@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const VoteSchema = new mongoose.Schema({
-    answerId: {
+    solutionId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Answer',
+        ref: 'Solution',
         required: true,
     },
     userId: {

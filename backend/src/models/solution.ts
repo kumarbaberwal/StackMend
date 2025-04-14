@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-const AnswerSchema = new mongoose.Schema({
-    questionId: {
+const SolutionSchema = new mongoose.Schema({
+    errorId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question',
+        ref: 'Error',
         required: true,
     },
     userId: {
@@ -21,4 +21,4 @@ const AnswerSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-export const Answer = mongoose.model('Answer', AnswerSchema);
+export const Solution = mongoose.model('Solution', SolutionSchema);
