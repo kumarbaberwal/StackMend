@@ -13,7 +13,7 @@
     },
     "include": [
         "src/**/*.ts"
-, "src/services/openAiService.ts"    ],
+    ],
     "exclude": [
         "node_modules"
     ]
