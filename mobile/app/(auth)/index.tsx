@@ -2,7 +2,7 @@ import { View, Text, KeyboardAvoidingView, Platform, Image, Dimensions, TextInpu
 import React, { useState } from 'react'
 import { images } from '@/constants/images';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link } from 'expo-router';
+import { Link, Redirect } from 'expo-router';
 const { width } = Dimensions.get('window')
 
 export default function Login() {
@@ -13,6 +13,10 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => { }
+
+  if (true) {
+    Redirect({ href: '/(tabs)' })
+  }
 
   return (
     <KeyboardAvoidingView

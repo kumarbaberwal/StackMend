@@ -42,25 +42,30 @@ export default function TabsLayout() {
         tabBarIcon: ({ focused, color, size }) => (
           <Ionicons name={focused ? "home" : "home-outline"} size={size} color={color} />
         )
-      }} />
+      }}
+      />
       < Tabs.Screen name='search' options={{
         title: "Search",
         tabBarIcon: ({ focused, color, size }) => (
           <Ionicons name={focused ? "search" : "search-outline"} size={size} color={color} />
         )
-      }} />
+      }}
+      />
       < Tabs.Screen name='submiterror' options={{
         title: "Submit Error",
         tabBarIcon: ({ focused, color, size }) => (
           <Ionicons name={focused ? "add-circle" : "add-circle-outline"} size={size} color={color} />
         )
-      }} />
+      }}
+      />
       < Tabs.Screen name='dashboard' options={{
         title: "Dashboard",
         tabBarIcon: ({ focused, color, size }) => (
           <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color} />
-        )
-      }} />
+        ),
+        tabBarBadge: 2
+      }}
+      />
     </Tabs >
   )
 }
