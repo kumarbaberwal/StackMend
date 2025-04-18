@@ -14,10 +14,6 @@ export default function Login() {
 
   const handleLogin = async () => { }
 
-  if (true) {
-    Redirect({ href: '/(tabs)' })
-  }
-
   return (
     <KeyboardAvoidingView
       className='flex-1'

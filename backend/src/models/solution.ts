@@ -11,7 +11,7 @@ const SolutionSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    answer: {
+    soulution: {
         type: String,
         required: true,
     },
