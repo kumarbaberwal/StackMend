@@ -27,7 +27,7 @@ export const submitSolution = async (req: Request, res: Response): Promise<any> 
     }
 }
 
-export const getAllSolutionsByQuestionId = async (req: Request, res: Response): Promise<any> => {
+export const getAllSolutionsByErrorId = async (req: Request, res: Response): Promise<any> => {
     try {
         const errorId = req.params.id;
 
