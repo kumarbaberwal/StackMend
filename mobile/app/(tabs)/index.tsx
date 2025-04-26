@@ -6,7 +6,7 @@ export default function Menu() {
   return (
     <View>
       <Text className='text-text'>Menu</Text>
-      {/* <Redirect href={'/auth'} /> */}
+      <Redirect href={'/login'} />
     </View>
   )
 }

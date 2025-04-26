@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, TextInput, Image } from 'react-native'
 import React, { useState } from 'react'
 import { Link, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -26,12 +26,31 @@ export default function Signup() {
 
         {/* Card */}
 
-        <View className='bg-gray-100 rounded-2xl p-6 shadow-black shadow-xl border-2 border-gray-400'>
+        <View className='bg-gray-100 rounded-2xl p-6 shadow-xl border-2 border-gray-400'>
+
+
+          {/* Logo */}
+
+          {/* <View
+            className='flex-row justify-center items-center w-[100%] mb-5'
+          >
+            <Image
+              source={require('./../../assets/images/logo.png')}
+              className='w-[15vw] h-[15vw] rounded-3xl'
+              resizeMode={'cover'}
+            />
+            <Text
+              className='text-2xl ml-5 text-gray-800 font-bold text-center'
+            >
+              StackMend
+            </Text>
+          </View> */}
+
 
 
           {/* Header */}
 
-          <View className='items-center mb-3'>
+          {/* <View className='items-center mb-3'>
 
             <Text className='text-4xl font-bold mb-2 text-black'>
               StackMend ⚠️
@@ -41,7 +60,7 @@ export default function Signup() {
               Find your solution
             </Text>
 
-          </View>
+          </View> */}
 
           {/* Form Container */}
 
@@ -69,8 +88,8 @@ export default function Signup() {
                   className='mr-2'
                 />
                 <TextInput
-                  className='flex-1 h-14 text-gray-800'
-                  placeholder='kumar'
+                  className='flex-1 h-14 text-gray-800 outline-none'
+                  placeholder='Enter your username'
                   placeholderClassName='text-gray-400'
                   value={username}
                   onChangeText={setUsername}
@@ -98,8 +117,8 @@ export default function Signup() {
                   className='mr-2'
                 />
                 <TextInput
-                  className='flex-1 h-14 text-gray-800'
-                  placeholder='kumar@gmail.com'
+                  className='flex-1 h-14 text-gray-800 outline-none'
+                  placeholder='Enter your email'
                   placeholderClassName='text-gray-400'
                   value={email}
                   onChangeText={setEmail}
@@ -128,8 +147,8 @@ export default function Signup() {
                   className='mr-2'
                 />
                 <TextInput
-                  className='flex-1 h-14 text-gray-800'
-                  placeholder='******'
+                  className='flex-1 h-14 text-gray-800 outline-none'
+                  placeholder='Enter you password'
                   placeholderClassName='text-gray-400'
                   value={password}
                   onChangeText={setPassword}
@@ -154,7 +173,7 @@ export default function Signup() {
             {/* Signup Button */}
 
             <TouchableOpacity
-              className='bg-blue-400 rounded-xl h-14 justify-center items-center mt-4 shadow-2xl shadow-blue-950'
+              className='bg-blue-400 rounded-xl h-14 justify-center items-center mt-4 shadow-xl'
               onPress={handleSignUp}
               disabled={isLoading}
             >

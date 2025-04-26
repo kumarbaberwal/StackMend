@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { images } from '@/constants/images';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, Redirect } from 'expo-router';
+import AlertModal from '@/components/AlertModal';
 const { width } = Dimensions.get('window')
 
 export default function Login() {
@@ -20,33 +21,41 @@ export default function Login() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
 
-
+      <AlertModal
+        visible={true}
+        title='Are you sure?'
+        subTitle='This action cant be undone.'
+        onSubmit={() => { }}
+        onCancel={() => { }}
+      />
       {/* Container View */}
       <View
         className='flex-grow bg-white justify-center p-5'
       >
 
 
+        {/* Logo */}
+
         {/* <View
-          className='items-center w-[100%]'
+          className='items-center w-[100%] mb-10'
         >
           <Image
-            source={require('./../../assets/images/logo.png')}
-            className='w-[75vw] h-[75vw]'
-            resizeMode={'cover'}
+            source={require('./../../assets/images/logo.jpg')}
+            className='w-[35vw] h-[35vw]'
+            resizeMode={'contain'}
           />
         </View> */}
 
         {/* Card View */}
 
         <View
-          className='bg-gray-100 rounded-2xl p-6 shadow-black shadow-xl border-2 border-gray-400'
+          className='bg-gray-100 rounded-2xl p-6 shadow-xl border-2 border-gray-400'
         >
 
 
           {/* Header */}
 
-          <View className='items-center mb-3'>
+          {/* <View className='items-center mb-3'>
 
             <Text className='text-4xl font-bold mb-2 text-black'>
               StackMend ⚠️
@@ -56,7 +65,7 @@ export default function Login() {
               Find your solution
             </Text>
 
-          </View>
+          </View> */}
 
 
           {/* Form Container */}
@@ -83,7 +92,7 @@ export default function Login() {
                   className='mr-2'
                 />
                 <TextInput
-                  className='flex-1 h-14 text-gray-800'
+                  className='flex-1 h-14 text-gray-800 outline-none'
                   placeholder='Enter you email'
                   placeholderClassName='text-gray-400'
                   value={email}
@@ -113,7 +122,7 @@ export default function Login() {
                   className='mr-2'
                 />
                 <TextInput
-                  className='flex-1 h-14 text-gray-800'
+                  className='flex-1 h-14 text-gray-800 outline-none'
                   placeholder='Enter you password'
                   placeholderClassName='text-gray-400'
                   value={password}
@@ -139,7 +148,7 @@ export default function Login() {
             {/* Login Button */}
 
             <TouchableOpacity
-              className='bg-blue-400 rounded-xl h-14 justify-center items-center mt-4 shadow-2xl shadow-blue-950'
+              className='bg-blue-400 rounded-xl h-14 justify-center items-center mt-4 shadow-xl'
               onPress={handleLogin}
               disabled={isLoading}
             >

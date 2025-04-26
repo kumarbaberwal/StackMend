@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Pressable, processColor } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -10,7 +10,6 @@ export default function TabsLayout() {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarLabelPosition: 'beside-icon',
         tabBarItemStyle: {
           justifyContent: "center",
           alignItems: "center",
@@ -63,7 +62,7 @@ export default function TabsLayout() {
         tabBarIcon: ({ focused, color, size }) => (
           <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color} />
         ),
-        tabBarBadge: 2
+        tabBarBadge: 10
       }}
       />
     </Tabs >
