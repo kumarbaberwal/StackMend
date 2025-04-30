@@ -1,30 +1,31 @@
 import { useAuthStore } from '@/store/authStore';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import React, { useState } from 'react';
-import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+const { width } = Dimensions.get('window')
 
-export default function Signup() {
-  const router = useRouter();
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const { isLoading, register } = useAuthStore()
-  const handleSignUp = async () => {
+export default function Login() {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const { isLoading, login } = useAuthStore();
+
+  const handleLogin = async () => {
     Keyboard.dismiss()
-    const result = await register({ username, email, password })
+    const result = await login({ email, password })
     if (!result.success && result.error) {
       ToastAndroid.show(result.error, ToastAndroid.LONG)
     } else {
-      ToastAndroid.show('Signup Successfull', ToastAndroid.LONG)
+      ToastAndroid.show('Login Sucessful', ToastAndroid.LONG)
     }
   }
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className='flex-1'
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
@@ -33,32 +34,29 @@ export default function Signup() {
           keyboardShouldPersistTaps={'handled'}
         >
 
-          {/* Container */}
-
-          <View className='flex-grow bg-white justify-center p-5'>
-
-            {/* Card */}
-
-            <View className='bg-gray-100 rounded-2xl p-6 shadow-xl border-2 border-gray-400'>
-
-
-              {/* Logo */}
-
-              {/* <View
-            className='flex-row justify-center items-center w-[100%] mb-5'
+          {/* Container View */}
+          <View
+            className='flex-grow bg-white justify-center p-5'
           >
-            <Image
-              source={require('./../../assets/images/logo.png')}
-              className='w-[15vw] h-[15vw] rounded-3xl'
-              resizeMode={'cover'}
-            />
-            <Text
-              className='text-2xl ml-5 text-gray-800 font-bold text-center'
-            >
-              StackMend
-            </Text>
-          </View> */}
 
+
+            {/* Logo */}
+
+            {/* <View
+          className='items-center w-[100%] mb-10'
+        >
+          <Image
+            source={require('./../../assets/images/logo.jpg')}
+            className='w-[35vw] h-[35vw]'
+            resizeMode={'contain'}
+          />
+        </View> */}
+
+            {/* Card View */}
+
+            <View
+              className='bg-gray-100 rounded-2xl p-6 shadow-xl border-2 border-gray-400'
+            >
 
 
               {/* Header */}
@@ -75,41 +73,11 @@ export default function Signup() {
 
           </View> */}
 
-              {/* Form Container */}
 
+              {/* Form Container */}
               <View
                 className='mb-4'
               >
-
-
-                {/* UserName Input */}
-                <View
-                  className='mb-5'
-                >
-                  <Text
-                    className='text-base mb-2 font-medium text-gray-800'
-                  >
-                    Username
-                  </Text>
-                  <View
-                    className='flex-row items-center bg-gray-50 border border-gray-300 rounded-xl px-3'
-                  >
-                    <Ionicons
-                      name='person-outline'
-                      size={20}
-                      color={'#000'}
-                      className='mr-2'
-                    />
-                    <TextInput
-                      className='flex-1 h-14 text-gray-800 outline-none'
-                      placeholder='Enter your username'
-                      placeholderClassName='text-gray-400'
-                      value={username}
-                      onChangeText={setUsername}
-                      autoCapitalize='none'
-                    />
-                  </View>
-                </View>
 
                 {/* Email Input */}
                 <View
@@ -183,11 +151,11 @@ export default function Signup() {
                 </View>
 
 
-                {/* Signup Button */}
+                {/* Login Button */}
 
                 <TouchableOpacity
                   className='bg-blue-400 rounded-xl h-14 justify-center items-center mt-4 shadow-xl'
-                  onPress={handleSignUp}
+                  onPress={handleLogin}
                   disabled={isLoading}
                 >
                   {
@@ -197,7 +165,7 @@ export default function Signup() {
                       <Text
                         className='text-white text-base font-semibold'
                       >
-                        Sign Up
+                        Login
                       </Text>
                     )
                   }
@@ -208,24 +176,22 @@ export default function Signup() {
 
                 <View className='flex-row justify-center mt-6'>
                   <Text className='mr-1 text-gray-700'>
-                    Already have an account?
+                    Don't have an account?
                   </Text>
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Text className='font-semibold text-gray-600' >
-                      Login
-                    </Text>
-                  </TouchableOpacity>
+                  <Link href={'/(auth)/signup'} asChild>
+                    <TouchableOpacity>
+                      <Text className='font-semibold text-gray-600' >
+                        Sign Up
+                      </Text>
+                    </TouchableOpacity>
+                  </Link>
                 </View>
 
-
               </View>
-
             </View>
-
           </View>
-
         </ScrollView>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   )
 }
