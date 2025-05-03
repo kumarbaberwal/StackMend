@@ -7,6 +7,7 @@ const initialState: AuthState = {
   user: null,
   token: null,
   loading: false,
+  isHydrated: false,
   error: null,
 };
 
@@ -60,9 +61,13 @@ export const hydrateAuthFromStorage = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
-  await AsyncStorage.removeItem('token');
-  await AsyncStorage.removeItem('user');
-  return;
+  try {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('user');
+  } catch (error: any) {
+    console.error('Logout failed:', error);
+    return thunkAPI.rejectWithValue(error.message);
+  }
 });
 
 const authSlice = createSlice({
@@ -93,11 +98,13 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.isHydrated = true;
       })
       .addCase(hydrateAuthFromStorage.rejected, (state) => {
         state.loading = false;
         state.user = null;
         state.token = null;
+        state.isHydrated = true;
       })
       // Logout
       .addCase(logoutUser.fulfilled, (state) => {

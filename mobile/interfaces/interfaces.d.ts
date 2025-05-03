@@ -13,6 +13,7 @@ interface AuthState {
   user: User | null;
   token: string | null;
   loading: boolean;
+  isHydrated: boolean;
   error: string | null;
 }
 
