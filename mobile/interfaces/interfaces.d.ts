@@ -21,3 +21,9 @@ interface LoginPayload {
   email: string;
   password: string;
 }
+
+interface SignupPayload {
+  username: string;
+  email: string;
+  password: string;
+}

@@ -13,7 +13,8 @@ export default function RootLayout() {
         <SafeAreaView className="flex-1 pt-10">
           <Stack
             screenOptions={{
-              headerShown: false
+              headerShown: false,
+              animation: 'none'
             }}
           >
             <Stack.Screen

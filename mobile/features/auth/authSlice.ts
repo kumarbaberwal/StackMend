@@ -42,6 +42,38 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+
+export const signupUser = createAsyncThunk(
+  'auth/signup',
+  async ({ username, email, password }: SignupPayload, thunkAPI) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password
+        }),
+      });
+
+      if (!response.ok) throw new Error('Invalid credentials');
+
+      const data = await response.json();
+
+      // Save to AsyncStorage
+      await AsyncStorage.setItem('token', data.user.token);
+      await AsyncStorage.setItem('user', JSON.stringify(data.user));
+
+      return { token: data.user.token, user: data.user };
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+)
+
 export const hydrateAuthFromStorage = createAsyncThunk(
   'auth/hydrate',
   async (_, thunkAPI) => {
@@ -79,7 +111,6 @@ const authSlice = createSlice({
       // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<{ token: string; user: User }>) => {
         state.loading = false;
@@ -87,6 +118,19 @@ const authSlice = createSlice({
         state.token = action.payload.token;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Signup
+      .addCase(signupUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(signupUser.fulfilled, (state, action: PayloadAction<{ token: string; user: User }>) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+      })
+      .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })

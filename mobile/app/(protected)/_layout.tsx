@@ -13,7 +13,7 @@ export default function ProtectedLayout() {
   const { user, token, loading, isHydrated } = useSelector(
     (state: RootState) => state.auth
   );
-  console.log("User: ", user, "Token: ", token, "Loading: ", loading, "isHydrated: ", isHydrated);
+  // console.log("User: ", user, "Token: ", token, "Loading: ", loading, "isHydrated: ", isHydrated);
 
   useEffect(() => {
     if (!isHydrated) {

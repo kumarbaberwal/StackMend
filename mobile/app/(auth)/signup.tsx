@@ -1,7 +1,8 @@
-import { RootState } from '@/store/store';
+import { signupUser } from '@/features/auth/authSlice';
+import { RootState, useAppDispatch } from '@/store/store';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { use, useCallback, useState } from 'react';
 import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
@@ -12,15 +13,26 @@ export default function Signup() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const { loading, error } = useSelector((state: RootState) => state.auth)
-  const handleSignUp = async () => {
+  const dispatch = useAppDispatch();
+  const handleSignUp = useCallback(async () => {
     Keyboard.dismiss()
-    // const result = await register({ username, email, password })
-    // if (!result.success && result.error) {
-    //   ToastAndroid.show(result.error, ToastAndroid.LONG)
-    // } else {
-    //   ToastAndroid.show('Signup Successfull', ToastAndroid.LONG)
-    // }
-  }
+
+    if (!username || !email || !password) {
+      ToastAndroid.show("Username, email and password are required", ToastAndroid.SHORT)
+      return;
+    }
+
+    try {
+      const { user, token } = await dispatch(signupUser({ username, email, password })).unwrap();
+      if (user && token) {
+        ToastAndroid.show('Signup successful', ToastAndroid.LONG);
+        router.replace('/');
+      }
+
+    } catch (error) {
+      ToastAndroid.show(error instanceof Error ? error.message : String(error), ToastAndroid.LONG);
+    }
+  }, [dispatch, username, email, password, router]);
 
   return (
     <KeyboardAvoidingView
@@ -106,6 +118,8 @@ export default function Signup() {
                     onChangeText={setEmail}
                     keyboardType='email-address'
                     autoCapitalize='none'
+                    textContentType='emailAddress'
+                    autoCorrect={false}
                   />
                 </View>
               </View>
