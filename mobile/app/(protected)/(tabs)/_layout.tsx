@@ -2,35 +2,46 @@ import { colors } from '@/constants/colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
+      // screenOptions={{
+      //   headerShown: false,
+      //   tabBarShowLabel: false,
+      //   tabBarItemStyle: {
+      //     justifyContent: "center",
+      //     alignItems: "center",
+      //   },
+      //   tabBarStyle: {
+      //     // backgroundColor: colors.background,
+      //     // borderRadius: 25,
+      //     // position: "absolute",
+      //     // bottom: 20,
+      //     height: 60,
+      //     // marginHorizontal: 10,
+      //     // shadowColor: colors.black,
+      //     // shadowOffset: { width: 0, height: 2 },
+      //     // shadowOpacity: 0.1,
+      //     // shadowRadius: 8,
+      //     // elevation: 4,
+      //   },
+      //   tabBarIconStyle: {
+      //     flex: 1,
+      //     height: "100%",
+      //     alignItems: 'center',
+      //     justifyContent: 'center',
+      //   }
+      // }}
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
-        tabBarItemStyle: {
-          justifyContent: "center",
-          alignItems: "center",
-        },
+        // tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: colors.background,
-          borderRadius: 25,
-          position: "absolute",
-          bottom: 20,
-          height: 60,
-          marginHorizontal: 10,
-          shadowColor: colors.black,
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 8,
-          elevation: 4,
-        },
-        tabBarIconStyle: {
-          flex: 1,
-          height: "100%",
-          alignItems: 'center',
-          justifyContent: 'center',
+          paddingTop: 5,
+          paddingBottom: insets.bottom,
+          height: 60 + insets.bottom,
         }
       }}
 
