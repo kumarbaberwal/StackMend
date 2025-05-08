@@ -1,8 +1,7 @@
-import { View, Text, Button } from 'react-native'
-import React from 'react'
-import { RootState, useAppDispatch } from '@/store/store'
-import { useSelector } from 'react-redux';
 import { logoutUser } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/store/store';
+import React from 'react';
+import { Button, Text, View } from 'react-native';
 
 export default function Index() {
   const dispatch = useAppDispatch();

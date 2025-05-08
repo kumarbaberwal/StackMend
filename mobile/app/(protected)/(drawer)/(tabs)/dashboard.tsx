@@ -1,10 +1,10 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-export default function ForgetPassword() {
+export default function Dashboard() {
   return (
     <View>
-      <Text>ForgetPassword</Text>
+      <Text>Dashboard</Text>
     </View>
   )
 }

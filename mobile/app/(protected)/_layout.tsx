@@ -1,7 +1,6 @@
 import Loader from '@/components/Loader';
 import { hydrateAuthFromStorage } from '@/features/auth/authSlice';
 import { RootState, useAppDispatch } from '@/store/store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Redirect, SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,9 +12,13 @@ export default function ProtectedLayout() {
   const { user, token, loading, isHydrated } = useSelector(
     (state: RootState) => state.auth
   );
-  // console.log("User: ", user, "Token: ", token, "Loading: ", loading, "isHydrated: ", isHydrated);
+  console.log("user:", user);
+  console.log("token:", token);
+  console.log("isHydrated:", isHydrated);
+  console.log("loading:", loading);
 
   useEffect(() => {
+    console.log("Getting user details")
     if (!isHydrated) {
       dispatch(hydrateAuthFromStorage());
     }
@@ -23,6 +26,7 @@ export default function ProtectedLayout() {
 
 
   useEffect(() => {
+    console.log('Hiding the splash screen')
     if (isHydrated) {
       SplashScreen.hideAsync();
     }
@@ -30,12 +34,14 @@ export default function ProtectedLayout() {
 
   // Show loading spinner while checking auth
   if (!isHydrated || loading) {
+    console.log('Loading')
     return (
       <Loader />
     );
   }
 
   if (!user && !token) {
+    console.log('redirecting')
     return <Redirect href="/(auth)/login" />;
   }
 
@@ -46,10 +52,10 @@ export default function ProtectedLayout() {
       }}
     >
       <Stack.Screen
-        name="(tabs)"
+        name="(drawer)"
       />
       <Stack.Screen
-        name="errors/[id]"
+        name='error/[id]'
       />
     </Stack>
   );
