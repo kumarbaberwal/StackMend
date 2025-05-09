@@ -49,9 +49,13 @@ export default function CustomDrawerContent(props: any) {
   );
 }
 
+function handleOnPress(label: string) {
+  console.log("Button Pressed", label);
+}
+
 function DrawerItem({ icon, label }: any) {
   return (
-    <TouchableOpacity style={styles.drawerItem}>
+    <TouchableOpacity style={styles.drawerItem} onPress={() => handleOnPress(label)}>
       <Feather name={icon} size={20} style={styles.icon} />
       <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
