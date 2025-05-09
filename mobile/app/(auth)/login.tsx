@@ -3,7 +3,7 @@ import { RootState, useAppDispatch } from '@/store/store';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 
@@ -27,11 +27,11 @@ export default function Login() {
       const { user, token } = await dispatch(loginUser({ email, password })).unwrap();
       // console.log(user, token);
       if (user && token) {
-        router.replace('/');
-        ToastAndroid.show('Login successful', ToastAndroid.LONG);
+        // router.replace('/');
+        Platform.OS === 'android' ? ToastAndroid.show('Login successful', ToastAndroid.LONG) : Alert.alert('Login successful');
       }
     } catch (error) {
-      ToastAndroid.show(error instanceof Error ? error.message : String(error), ToastAndroid.LONG);
+      Platform.OS === 'android' ? ToastAndroid.show(error instanceof Error ? error.message : String(error), ToastAndroid.LONG) : Alert.alert(error instanceof Error ? error.message : String(error));
     }
   }, [dispatch, email, password, router]);
 

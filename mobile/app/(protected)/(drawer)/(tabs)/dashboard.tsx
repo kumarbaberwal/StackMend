@@ -1,10 +1,14 @@
+import { logoutUser } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/store/store';
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Button, Text, View } from 'react-native'
 
 export default function Dashboard() {
+  const dispatch = useAppDispatch();
   return (
     <View>
-      <Text>Dashboard</Text>
+      <Text>Index</Text>
+      <Button title='Logout' onPress={() => dispatch(logoutUser())} />
     </View>
   )
 }

@@ -26,7 +26,7 @@ export default function Signup() {
       const { user, token } = await dispatch(signupUser({ username, email, password })).unwrap();
       if (user && token) {
         ToastAndroid.show('Signup successful', ToastAndroid.LONG);
-        router.replace('/');
+        // router.replace('/');
       }
 
     } catch (error) {
