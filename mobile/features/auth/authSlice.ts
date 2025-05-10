@@ -1,4 +1,3 @@
-// features/auth/authSlice.ts
 import { API_URL } from '@/constants/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
