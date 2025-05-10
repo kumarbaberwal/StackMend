@@ -91,7 +91,7 @@ export const deleteError = async (req: Request, res: Response): Promise<any> => 
 
 export const getAllErrorsByUser = async (req: Request, res: Response): Promise<any> => {
     try {
-        const errors = await Error.findById({ userId: req.user.userId }).sort({ createdAt: -1 })
+        const errors = await Error.find({ userId: req.user.userId }).sort({ createdAt: -1 })
         res.status(200).json(errors)
     } catch (error) {
         console.log("Error in getting users error: ", error)
