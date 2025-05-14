@@ -25,8 +25,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>StackMend – Mend Your Errors</title>
+        <link rel="stylesheet" href="stackmend.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap" rel="stylesheet" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen`}
       >
         <Navigation />
         {children}

@@ -9,15 +9,13 @@ export const mockErrors = [
       _id: "663ffc5db45a2315d9099c01",
       username: "alice",
       email: "alice@example.com",
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 120,
       role: "user"
     },
-    aiGeneratedSolution: "Ensure the variable is not undefined before accessing its properties.",
     votes: 5,
     views: 32,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e02",
@@ -29,15 +27,13 @@ export const mockErrors = [
       _id: "663ffc5db45a2315d9099c02",
       username: "bob",
       email: "bob@example.com",
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 300,
       role: "moderator"
     },
-    aiGeneratedSolution: "Declare the variable 'x' before using it.",
     votes: 10,
     views: 45,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e03",
@@ -53,11 +49,9 @@ export const mockErrors = [
       reputation: 500,
       role: "admin"
     },
-    aiGeneratedSolution: "Ensure the endpoint returns JSON, not HTML.",
     votes: 3,
     views: 18,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e04",
@@ -69,15 +63,13 @@ export const mockErrors = [
       _id: "663ffc5db45a2315d9099c01",
       username: "alice",
       email: "alice@example.com",
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 120,
       role: "user"
     },
-    aiGeneratedSolution: "Check for null before calling methods.",
     votes: 2,
     views: 10,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e05",
@@ -89,15 +81,13 @@ export const mockErrors = [
       _id: "663ffc5db45a2315d9099c02",
       username: "bob",
       email: "bob@example.com",
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 300,
       role: "moderator"
     },
-    aiGeneratedSolution: "Run 'pip install requests' to install it.",
     votes: 8,
     views: 40,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e06",
@@ -109,15 +99,13 @@ export const mockErrors = [
       _id: "663ffc5db45a2315d9099c04",
       username: "dave",
       email: "dave@example.com",
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 60,
       role: "user"
     },
-    aiGeneratedSolution: "Use valgrind to trace memory issues.",
     votes: 6,
     views: 25,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e07",
@@ -133,11 +121,9 @@ export const mockErrors = [
       reputation: 410,
       role: "user"
     },
-    aiGeneratedSolution: "Check list length before indexing.",
     votes: 12,
     views: 38,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e08",
@@ -153,11 +139,9 @@ export const mockErrors = [
       reputation: 500,
       role: "admin"
     },
-    aiGeneratedSolution: "Use try/catch or .catch() to handle promises.",
     votes: 15,
     views: 50,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e09",
@@ -169,15 +153,13 @@ export const mockErrors = [
       _id: "663ffc5db45a2315d9099c04",
       username: "dave",
       email: "dave@example.com",
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 60,
       role: "user"
     },
-    aiGeneratedSolution: "Ensure the object is not None before use.",
     votes: 7,
     views: 19,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   {
     _id: "664001a1f5b4bc2dfd1a1e0a",
@@ -189,15 +171,13 @@ export const mockErrors = [
       _id: "663ffc5db45a2315d9099c01",
       username: "alice",
       email: "alice@example.com",
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 120,
       role: "user"
     },
-    aiGeneratedSolution: "Add CORS middleware to backend.",
     votes: 14,
     views: 65,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   },
   // Add 5 more for total of 15:
   ...Array.from({ length: 5 }, (_, i) => ({
@@ -210,14 +190,12 @@ export const mockErrors = [
       _id: `663ffc5db45a2315d9099c0${(i % 5) + 1}`,
       username: `user${i + 1}`,
       email: `user${i + 1}@example.com`,
-      profileImage: "",
+      profileImage: "https://avatars.githubusercontent.com/u/148860110?v=4",
       reputation: 50 + i * 10,
       role: "user"
     },
-    aiGeneratedSolution: "This is a dummy AI-generated solution.",
     votes: i,
     views: i * 10,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: "12 10 3000",
   }))
 ];

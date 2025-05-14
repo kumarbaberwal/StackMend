@@ -1,8 +1,9 @@
+import ErrorCard from '@/components/ErrorCard';
 import Loader from '@/components/Loader';
 import { mockErrors } from '@/constants/mockErrors';
-import { useDeleteErrorMutation, useGetAllErrorsByUserQuery, useGetAllErrorsQuery } from '@/services/errorsApi';
+import { useDeleteErrorMutation } from '@/services/errorsApi';
 import React from 'react';
-import { Button, FlatList, Text, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 export default function Index() {
   // const { data: errors, error, isLoading } = useGetAllErrorsQuery({ page: 1, limit: 5 });
@@ -24,14 +25,15 @@ export default function Index() {
   // console.log('Errors: ', errors);
   return (
     <View className='flex-1 bg-white'>
-      <Button title='delete' onPress={() => handleDelete()} />
+      {/* <Button title='delete' onPress={() => handleDelete()} /> */}
       {
-        // true ?
-        //   <Loader /> :
-        //   <FlatList
-        //     data={mockErrors}
-        //     keyExtractor={(item) => item._id}
-        //   />
+        false ?
+          <Loader /> :
+          <FlatList
+            data={mockErrors}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <ErrorCard name={''} message={''} updatedAt={''} {...item} />}
+          />
       }
       {/* <Text>{errors ? errors : "Undefined"}</Text> */}
       {/* <Button title='Get Data' onPress={ ()=> } /> */}

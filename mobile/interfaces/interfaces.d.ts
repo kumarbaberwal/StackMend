@@ -34,10 +34,11 @@ interface ErrorUser {
   email: string;
   profileImage: string;
   reputation: number;
-  role: 'user' | 'moderator' | 'admin';
+  // role: 'user' | 'moderator' | 'admin';
+  role: string;
 }
 
-interface Error{
+interface Error {
   _id: string;
   title: string;
   description: string;
@@ -48,7 +49,7 @@ interface Error{
   views: number;
   createdAt: string;
   updatedAt: string;
-  __v: number;
+  // __v: number;
 }
 
 interface GetAllErrorsResponse {
