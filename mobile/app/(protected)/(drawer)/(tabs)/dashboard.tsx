@@ -62,7 +62,7 @@ export default function Dashboard() {
     }
   };
 
-  const renderErrorItem = ({ item }: any) => {
+  const renderErrorItem = ({ item }: { item: ErrorByUser }) => {
     const isItemDeleting = isDeleting && selectedErrorId === item._id;
     return (
       <View className="flex-row bg-white rounded-2xl p-5 shadow-md mb-5 items-start">
@@ -150,7 +150,7 @@ export default function Dashboard() {
       <FlatList
         data={data}
         keyExtractor={(item) => item._id}
-        renderItem={renderErrorItem}
+        renderItem={({ item }: { item: ErrorByUser }) => renderErrorItem({ item })}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => isLoading ? null : <ListEmpty onReport={() => router.push('/(protected)/(drawer)/(tabs)/submiterror')} />}
 
