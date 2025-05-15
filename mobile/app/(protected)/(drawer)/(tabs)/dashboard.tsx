@@ -110,7 +110,7 @@ export default function Dashboard() {
   };
 
   return (
-    <View className="flex-1 bg-gray-50 p-5">
+    <View className="flex-1 bg-gray-50 p-5 pb-0">
       {user && (
         <View className="flex-row items-center bg-white rounded-3xl p-5 mb-8 shadow-lg border border-gray-200">
           <Image

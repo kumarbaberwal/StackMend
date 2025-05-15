@@ -41,7 +41,28 @@ export const errorApi = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Errors']
+      invalidatesTags: ['Errors'],
+      async onQueryStarted(_, { dispatch, queryFulfilled, getState }) {
+        const state = getState() as RootState;
+
+        try {
+          const { data: createdError } = await queryFulfilled;
+
+          // Update all cached pages of getAllErrors
+          const entries = errorApi.util.selectInvalidatedBy(state, ['Errors'])
+            .filter(entry => entry.endpointName === 'getAllErrors');
+
+          entries.forEach(entry =>
+            dispatch(
+              errorApi.util.updateQueryData('getAllErrors', entry.originalArgs as any, (draft) => {
+                draft.errors = [createdError, ...(draft.errors || [])];
+              })
+            )
+          );
+        } catch {
+          // No optimistic patching to undo in this case.
+        }
+      },
     }),
 
     deleteError: builder.mutation<{ message: string }, { id: string }>({
