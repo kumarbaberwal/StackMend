@@ -1,42 +1,68 @@
 import ErrorCard from '@/components/ErrorCard';
 import Loader from '@/components/Loader';
-import { mockErrors } from '@/constants/mockErrors';
-import { useDeleteErrorMutation } from '@/services/errorsApi';
-import React from 'react';
-import { FlatList, View } from 'react-native';
+import { errorApi, useGetAllErrorsQuery } from '@/services/errorsApi';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { RootState } from '@/store/store';
 
-export default function Index() {
-  // const { data: errors, error, isLoading } = useGetAllErrorsQuery({ page: 1, limit: 5 });
-  // const { data: errors, error, isLoading } = useGetAllErrorsByUserQuery();
-  const [deleteError, { data, error, isLoading }] = useDeleteErrorMutation();
-  console.log('IsLoading: ', isLoading);
-  console.log('error: ', error);
-  // console.log('data: ', errors);
-  console.log('data: ', data);
+export default function ErrorList() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const handleDelete = async () => {
-    try {
-      await deleteError({ id: '681eff46818f02e6d778c082' }).unwrap();
-    } catch (error) {
-      console.log('Error deleting')
+  const dispatch = useDispatch();
+
+  const { data, isLoading, isFetching, refetch } = useGetAllErrorsQuery({ page: currentPage });
+
+
+  // ✅ Load more on scroll end
+  const loadMore = useCallback(() => {
+    if (!isFetching && data?.currentPage! < data?.totalPages!) {
+      setCurrentPage((prev) => prev + 1);
     }
-  }
-  // console.log('Errors: ', JSON.stringify(errors));
-  // console.log('Errors: ', errors);
-  return (
-    <View className='flex-1 bg-white'>
-      {/* <Button title='delete' onPress={() => handleDelete()} /> */}
-      {
-        false ?
-          <Loader /> :
-          <FlatList
-            data={mockErrors}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) => <ErrorCard name={''} message={''} updatedAt={''} {...item} />}
-          />
-      }
-      {/* <Text>{errors ? errors : "Undefined"}</Text> */}
-      {/* <Button title='Get Data' onPress={ ()=> } /> */}
+  }, [isFetching, data]);
+
+  // ✅ Pull to refresh
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    setCurrentPage(1);
+    dispatch(errorApi.util.invalidateTags([{ type: 'Errors', id: 'LIST' }])); // Invalidate cache
+    await refetch();   // Refetch fresh page 1
+    setRefreshing(false);
+  };
+
+  const renderEmptyComponent = () => (
+    <View className="items-center mt-5">
+      <Text>No Errors found.</Text>
     </View>
-  )
+  );
+
+  const renderFooterComponent = () => {
+    if (data?.currentPage! < data?.totalPages!) {
+      return <Loader />;
+    }
+    return null;
+  };
+
+  return (
+    <View className="flex-1 bg-white">
+      {isLoading && currentPage === 1 ? (
+        <Loader />
+      ) : (
+        <FlatList
+          data={data?.errors}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => <ErrorCard {...item} />}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
+          ListEmptyComponent={renderEmptyComponent}
+          ListFooterComponent={renderFooterComponent}
+          onEndReachedThreshold={0.1}
+          onEndReached={loadMore}
+        />
+      )}
+    </View>
+  );
 }

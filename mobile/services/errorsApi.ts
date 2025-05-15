@@ -18,8 +18,19 @@ export const errorApi = createApi({
   endpoints: (builder) => ({
     getAllErrors: builder.query<GetAllErrorsResponse, { page?: number; limit?: number }>({
       query: ({ page = 1, limit = 5 }) => `/error?page=${page}&limit=${limit}`,
-      providesTags: ['Errors']
+      providesTags: ['Errors'],
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        currentCache.errors = [...currentCache.errors, ...newItems.errors];
+        currentCache.currentPage = newItems.currentPage;
+        currentCache.totalErrors = newItems.totalErrors;
+        currentCache.totalPages = newItems.totalPages;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.page !== previousArg?.page;
+      }
     }),
+
 
     submitError: builder.mutation<Error, SubmitErrorRequest>({
       query: (body) => ({

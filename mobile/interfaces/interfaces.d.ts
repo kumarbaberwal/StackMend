@@ -4,6 +4,8 @@ interface User {
   createdAt: string,
   email: string,
   profileImage: string,
+  reputation: number,
+  role: string,
   token: string,
   updatedAt: string,
   username: string,
