@@ -19,18 +19,21 @@ export const errorApi = createApi({
     getAllErrors: builder.query<GetAllErrorsResponse, { page?: number; limit?: number }>({
       query: ({ page = 1, limit = 5 }) => `/error?page=${page}&limit=${limit}`,
       providesTags: ['Errors'],
-      serializeQueryArgs: ({ endpointName }) => endpointName,
-      merge: (currentCache, newItems) => {
-        currentCache.errors = [...currentCache.errors, ...newItems.errors];
-        currentCache.currentPage = newItems.currentPage;
-        currentCache.totalErrors = newItems.totalErrors;
-        currentCache.totalPages = newItems.totalPages;
+      serializeQueryArgs: ({ endpointName }) => endpointName, // Key by endpointName only (ignore page param)
+      // Merge paginated errors with deduplication (based on _id)
+      merge: (currentCache, newData) => {
+        const uniqueMap = new Map();
+        [...(currentCache.errors || []), ...newData.errors].forEach((item) => {
+          uniqueMap.set(item._id, item);
+        });
+        currentCache.errors = Array.from(uniqueMap.values());
+        currentCache.currentPage = newData.currentPage;
+        currentCache.totalPages = newData.totalPages;
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg?.page !== previousArg?.page;
       }
     }),
-
 
     submitError: builder.mutation<Error, SubmitErrorRequest>({
       query: (body) => ({
@@ -46,7 +49,28 @@ export const errorApi = createApi({
         url: `/error/${id}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['Errors']
+      invalidatesTags: ['Errors'],
+      async onQueryStarted({ id }, { dispatch, queryFulfilled, getState }) {
+        const state = getState() as RootState;
+
+        // Optimistically remove from all cached pages
+        const entries = errorApi.util.selectInvalidatedBy(state, ['Errors'])
+          .filter(entry => entry.endpointName === 'getAllErrors');
+
+        const patches = entries.map(entry =>
+          dispatch(
+            errorApi.util.updateQueryData('getAllErrors', entry.originalArgs as any, (draft) => {
+              draft.errors = draft.errors?.filter((e) => e._id !== id);
+            })
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patches.forEach((p) => p.undo());
+        }
+      },
     }),
 
     getAllErrorsByUser: builder.query<ErrorByUser[], void>({

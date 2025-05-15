@@ -1,44 +1,41 @@
 import ErrorCard from '@/components/ErrorCard';
 import Loader from '@/components/Loader';
-import { errorApi, useGetAllErrorsQuery } from '@/services/errorsApi';
-import { useDispatch, useSelector } from 'react-redux';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useGetAllErrorsQuery } from '@/services/errorsApi';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import React, { useCallback, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
-import { RootState } from '@/store/store';
 
 export default function ErrorList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
 
-  const dispatch = useDispatch();
-
   const { data, isLoading, isFetching, refetch } = useGetAllErrorsQuery({ page: currentPage });
 
-
-  // ✅ Load more on scroll end
   const loadMore = useCallback(() => {
     if (!isFetching && data?.currentPage! < data?.totalPages!) {
       setCurrentPage((prev) => prev + 1);
     }
   }, [isFetching, data]);
 
-  // ✅ Pull to refresh
   const handleRefresh = async () => {
     setRefreshing(true);
     setCurrentPage(1);
-    dispatch(errorApi.util.invalidateTags([{ type: 'Errors', id: 'LIST' }])); // Invalidate cache
-    await refetch();   // Refetch fresh page 1
+    await refetch();
     setRefreshing(false);
   };
 
   const renderEmptyComponent = () => (
-    <View className="items-center mt-5">
-      <Text>No Errors found.</Text>
+    <View className="items-center justify-center p-4 bg-gray-50 rounded-2xl mx-5 shadow-md">
+      <MaterialIcons name='error-outline' color="#9CA3AF" size={50} />
+      <Text className="text-xl font-semibold text-gray-600 mt-4">No Errors Found</Text>
+      <Text className="text-base text-gray-400 mt-2 text-center">
+        Everything looks good! No errors to display right now.
+      </Text>
     </View>
   );
 
   const renderFooterComponent = () => {
-    if (data?.currentPage! < data?.totalPages!) {
+    if (isFetching && data?.currentPage! < data?.totalPages!) {
       return <Loader />;
     }
     return null;
@@ -50,7 +47,7 @@ export default function ErrorList() {
         <Loader />
       ) : (
         <FlatList
-          data={data?.errors}
+          data={data?.errors || []}  // ✅ Use merged data from RTK Query directly
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => <ErrorCard {...item} />}
           showsVerticalScrollIndicator={false}
@@ -61,6 +58,7 @@ export default function ErrorList() {
           ListFooterComponent={renderFooterComponent}
           onEndReachedThreshold={0.1}
           onEndReached={loadMore}
+          contentContainerClassName='flex-grow justify-center'
         />
       )}
     </View>
