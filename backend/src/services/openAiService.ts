@@ -5,33 +5,31 @@ const openai = new OpenAI({
     apiKey: ENV_VARS.OPENAI_API_KEY,
 });
 
-
-export const generateErrorSolution = async (): Promise<string> => {
+export const generateErrorSolution = async (errorDescription: string): Promise<string> => {
     try {
         const response = await openai.chat.completions.create({
-            model: "chatgpt-4o-latest",
+            model: "gpt-4o",  // Simplified model name
             messages: [
                 {
-                    "role": "user",
-                    "content": `Generate a solution for the given error.`
+                    role: "system",
+                    content: "You are a helpful programming assistant. Given an error description, provide a possible solution."
+                },
+                {
+                    role: "user",
+                    content: `Error Details:\n${errorDescription}\n\nPlease suggest a possible solution to fix this error.`
                 },
             ],
-            max_tokens: 50,
+            max_tokens: 200,
         });
 
-        console.log("Generate Error Solution - OpenAi Called: ");
-        // Extract the content
-        let content = response.choices[0]?.message?.content?.trim()!;
+        console.log("Generate Error Solution - OpenAI Called");
 
-        // Extract only the solution using a regex pattern
-        const solutionMatch = content.match(/["“](.*?)["”]/); // Match text inside quotes
-        const solution = solutionMatch ? solutionMatch[1] : content;
+        let content = response.choices[0]?.message?.content?.trim() || "No solution found.";
 
-        console.log(solution);
-        return solution.trim();
-
+        console.log("AI Generated Solution:", content);
+        return content;
     } catch (error) {
         console.error('Error generating error solution: ', error);
         return "No solution provided by the AI";
     }
-}
+};

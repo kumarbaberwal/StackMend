@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Error } from "../models/error";
+import { generateErrorSolution } from "../services/openAiService";
 
 export const submitError = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -9,16 +10,16 @@ export const submitError = async (req: Request, res: Response): Promise<any> => 
                 message: "Please provide all fields",
             });
         }
+        const aiGeneratedSolution = await generateErrorSolution(`${title}\n\n${description}`);
 
-        const newError = new Error({
+        const newError = await Error.create({
             title,
             description,
             language,
             tags,
             userId: req.user.userId,
-        })
-
-        await newError.save()
+            aiGeneratedSolution,
+        });
 
         res.status(201).json(newError)
     } catch (error) {
