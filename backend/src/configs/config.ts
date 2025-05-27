@@ -5,5 +5,6 @@ export const ENV_VARS = {
     PORT: process.env.PORT!,
     MONGO_URI: process.env.MONGO_URI!,
     JWT_SECRET: process.env.JWT_SECRET!,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY!,
 }

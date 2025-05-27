@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Error } from "../models/error";
-import { generateErrorSolution } from "../services/openAiService";
+import { generateErrorSolution } from "../services/goggleGenerativeAiService";
 
 export const submitError = async (req: Request, res: Response): Promise<any> => {
     try {
