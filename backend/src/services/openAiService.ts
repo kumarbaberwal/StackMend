@@ -1,35 +1,30 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ENV_VARS } from "../configs/config";
 
-const openai = new OpenAI({
-    apiKey: ENV_VARS.OPENAI_API_KEY,
-});
+const genAI = new GoogleGenerativeAI(ENV_VARS.GEMINI_API_KEY); // Use correct var name for Gemini
 
 export const generateErrorSolution = async (errorDescription: string): Promise<string> => {
     try {
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o",  // Simplified model name
-            messages: [
-                {
-                    role: "system",
-                    content: "You are a helpful programming assistant. Given an error description, provide a possible solution."
-                },
-                {
-                    role: "user",
-                    content: `Error Details:\n${errorDescription}\n\nPlease suggest a possible solution to fix this error.`
-                },
-            ],
-            max_tokens: 200,
-        });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-        console.log("Generate Error Solution - OpenAI Called");
+        const prompt = `
+                        You are a helpful programming assistant.
+                        Given the following error description, provide a possible solution.
 
-        let content = response.choices[0]?.message?.content?.trim() || "No solution found.";
+                        Error Details:
+                        ${errorDescription}
 
-        console.log("AI Generated Solution:", content);
-        return content;
+                        Please suggest a possible fix or steps to resolve this error.
+                        `;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        // console.log("AI Generated Solution:", text.trim());
+        return text.trim();
     } catch (error) {
-        console.error('Error generating error solution: ', error);
-        return "No solution provided by the AI";
+        console.error("Error generating error solution:", error);
+        return "No solution provided by the AI.";
     }
 };
