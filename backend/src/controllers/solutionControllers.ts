@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Solution } from "../models/solution";
+import { Vote } from "../models/vote";
 
 export const submitSolution = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -51,8 +52,25 @@ export const getAllSolutionsByErrorId = async (req: Request, res: Response): Pro
 
         const totalSolutions = await Solution.countDocuments()
 
+        // Enrich solutions with vote data
+
+        const enrichedSolutions = await Promise.all(
+            solutions.map(async (solution) => {
+                const [upvotes, downvotes] = await Promise.all([
+                    Vote.countDocuments({ solutionId: solution._id, vote: 'upvote' }),
+                    Vote.countDocuments({ solutionId: solution._id, vote: 'downvote' })
+                ]);
+
+                return {
+                    ...solution,
+                    upvotes,
+                    downvotes,
+                };
+            })
+        );
+
         res.status(200).json({
-            solutions: solutions,
+            solutions: enrichedSolutions,
             currentPage: page,
             totalSolutions: totalSolutions,
             totalPages: Math.ceil(totalSolutions / limit)

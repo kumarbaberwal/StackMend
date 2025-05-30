@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { Error } from "../models/error";
 import { generateErrorSolution } from "../services/goggleGenerativeAiService";
+import { Solution } from "../models/solution";
+import { Vote } from "../models/vote";
 
 export const submitError = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -101,3 +103,54 @@ export const getAllErrorsByUser = async (req: Request, res: Response): Promise<a
         })
     }
 }
+
+export const getDetailedErrorById = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const errorId = req.params.id;
+        const currentUserId = req.user.userId; // assuming user is attached to req
+
+        // Step 1: Get error details with user info
+        const error = await Error.findById(errorId)
+            .populate('userId', 'username email profileImage reputation role')
+            .lean();
+
+        if (!error) {
+            return res.status(404).json({ message: "Error not found" });
+        }
+
+        // Step 2: Update views count only if viewer is not the one who posted it
+        if (currentUserId && error.userId._id.toString() !== currentUserId.toString()) {
+            await Error.findByIdAndUpdate(errorId, { $inc: { views: 1 } });
+        }
+
+        // Step 3: Get all solutions for this error with user info
+        const solutions = await Solution.find({ errorId })
+            .populate('userId', 'username profileImage')
+            .lean();
+
+        // Step 4: Enrich solutions with vote data
+        const enrichedSolutions = await Promise.all(
+            solutions.map(async (solution) => {
+                const [upvotes, downvotes] = await Promise.all([
+                    Vote.countDocuments({ solutionId: solution._id, vote: 'upvote' }),
+                    Vote.countDocuments({ solutionId: solution._id, vote: 'downvote' })
+                ]);
+
+                return {
+                    ...solution,
+                    upvotes,
+                    downvotes,
+                };
+            })
+        );
+
+        return res.status(200).json({
+            error,
+            solutions: enrichedSolutions,
+        });
+
+    } catch (error) {
+        console.error("Error in getting detailed error info:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
