@@ -12,7 +12,6 @@ export const submitError = async (req: Request, res: Response): Promise<any> => 
                 message: "Please provide all fields",
             });
         }
-        const aiGeneratedSolution = await generateErrorSolution(`${title}\n\n${description}`);
 
         const newError = await Error.create({
             title,
@@ -20,10 +19,20 @@ export const submitError = async (req: Request, res: Response): Promise<any> => 
             language,
             tags,
             userId: req.user.userId,
-            aiGeneratedSolution,
         });
 
         res.status(201).json(newError)
+
+        await generateErrorSolution(`${title}\n\n${description}`)
+            .then(async (solution) => {
+                await Error.findByIdAndUpdate(newError._id, {
+                    aiGeneratedSolution: solution,
+                });
+            })
+            .catch((err) => {
+                console.error("AI generation failed:", err);
+                // Optionally update status or log the failure
+            });
     } catch (error) {
         console.log("Error submitting error: ", error);
         res.status(500).json({
