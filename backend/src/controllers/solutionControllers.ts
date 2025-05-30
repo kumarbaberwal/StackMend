@@ -1,13 +1,32 @@
 import { Request, Response } from "express";
 import { Solution } from "../models/solution";
 import { Vote } from "../models/vote";
+import { Error } from "../models/error";
 
 export const submitSolution = async (req: Request, res: Response): Promise<any> => {
     try {
-        const { errorId, userId, solution } = req.body;
-        if (!errorId || !userId || !solution) {
+        const { id: errorId } = req.params;
+
+        if (!errorId) {
             return res.status(400).json({
-                message: "Please provide all fields",
+                message: "Error ID is required",
+            })
+        }
+        const { solution } = req.body;
+        console.log("Solution: ", solution);
+
+        if (!solution || !solution.trim() || typeof solution !== 'string') {
+            return res.status(400).json({
+                message: "Please provide a valid solution",
+            });
+        }
+
+        // Check if the error exists
+        const errorExists = await Error.findById(errorId);
+
+        if (!errorExists) {
+            return res.status(404).json({
+                message: "Error not found",
             });
         }
 

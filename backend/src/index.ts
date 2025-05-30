@@ -4,6 +4,7 @@ import { ENV_VARS } from './configs/config';
 import { connectDB } from './databases/db';
 import authRouter from './routes/authRoutes';
 import errorRouter from './routes/errorRoutes';
+import solutionRouter from './routes/solutionRoutes';
 // import { cronJob } from './utils/cron';
 
 const app = express();
@@ -19,6 +20,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/auth', authRouter);
 app.use('/error', errorRouter);
+app.use('/solution', solutionRouter);
 
 const PORT = ENV_VARS.PORT;
 app.listen(PORT, () => {
