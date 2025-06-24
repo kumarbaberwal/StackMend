@@ -20,6 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+      </head>
       <body className={`${inter.className} ${firaCode.variable} min-h-screen`}>
         <Providers>
           <div className="flex min-h-screen flex-col">
