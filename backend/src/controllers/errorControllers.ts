@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Error } from "../models/error";
 import { generateErrorSolution } from "../services/goggleGenerativeAiService";
 import { Solution } from "../models/solution";
+import { User } from "../models/user";
 
 export const submitError = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -117,6 +118,8 @@ export const getDetailedErrorById = async (req: Request, res: Response): Promise
         const errorId = req.params.id;
         const currentUserId = req.user.userId; // assuming user is attached to req
 
+        const currentUser = await User.findById(currentUserId)
+
         // Step 1: Get error details with user info
         const error = await Error.findById(errorId)
             .populate('userId', 'username email profileImage reputation role')
@@ -127,8 +130,11 @@ export const getDetailedErrorById = async (req: Request, res: Response): Promise
         }
 
         // Step 2: Update views count only if viewer is not the one who posted it
-        if (currentUserId && error.userId._id.toString() !== currentUserId.toString()) {
-            await Error.findByIdAndUpdate(errorId, { $inc: { views: 1 } });
+        if (currentUser && error.userId._id.toString() !== currentUser._id.toString()) {
+            const isViewed = error.views.includes(currentUser._id)
+            if (!isViewed) {
+                await Error.findByIdAndUpdate(errorId, { $push: { views: currentUser._id } });
+            }
         }
 
         // Step 3: Get all solutions for this error with user info
