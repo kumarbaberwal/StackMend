@@ -15,10 +15,10 @@ const SolutionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    votes: {
-        type: Number,
-        default: 0,
-    },
+    votes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
 }, { timestamps: true });
 
 export const Solution = mongoose.model('Solution', SolutionSchema);

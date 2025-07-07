@@ -25,15 +25,14 @@ const ErrorSchema = new mongoose.Schema({
     aiGeneratedSolution: {
         type: String,
     },
-    votes: {
-        type: Number,
-        default: 0,
-    },
-    views: {
-        type: Number,
-        default: 0,
-    },
+    votes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // stores users who liked the error
+    }],
+    views: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // stores users who viewed the error
+    }],
 }, { timestamps: true });
-
 
 export const Error = mongoose.model('Error', ErrorSchema);

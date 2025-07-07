@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { Error } from "../models/error";
 import { generateErrorSolution } from "../services/goggleGenerativeAiService";
 import { Solution } from "../models/solution";
-import { Vote } from "../models/vote";
 
 export const submitError = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -137,21 +136,20 @@ export const getDetailedErrorById = async (req: Request, res: Response): Promise
             .populate('userId', 'username profileImage')
             .lean();
 
-        // Step 4: Enrich solutions with vote data
-        const enrichedSolutions = await Promise.all(
-            solutions.map(async (solution) => {
-                const [upvotes, downvotes] = await Promise.all([
-                    Vote.countDocuments({ solutionId: solution._id, vote: 'upvote' }),
-                    Vote.countDocuments({ solutionId: solution._id, vote: 'downvote' })
-                ]);
+        // Step 4: Enrich solutions with vote count
+        const enrichedSolutions = solutions.map((solution) => {
+            const upvotes = solution.votes?.length || 0;
+            const isVotedByCurrentUser = solution.votes?.some(
+                (voterId) => voterId.toString() === currentUserId.toString()
+            );
 
-                return {
-                    ...solution,
-                    upvotes,
-                    downvotes,
-                };
-            })
-        );
+            return {
+                ...solution,
+                upvotes,
+                isVotedByCurrentUser, // helpful for frontend toggle
+            };
+        });
+
 
         return res.status(200).json({
             error,

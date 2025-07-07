@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Solution } from "../models/solution";
-import { Vote } from "../models/vote";
 import { Error } from "../models/error";
 
 export const submitSolution = async (req: Request, res: Response): Promise<any> => {
@@ -63,7 +62,6 @@ export const getAllSolutionsByErrorId = async (req: Request, res: Response): Pro
         const skip = (page - 1) * limit
 
         const solutions = await Solution.find()
-            .sort({ votes: -1 })
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
@@ -71,25 +69,8 @@ export const getAllSolutionsByErrorId = async (req: Request, res: Response): Pro
 
         const totalSolutions = await Solution.countDocuments()
 
-        // Enrich solutions with vote data
-
-        const enrichedSolutions = await Promise.all(
-            solutions.map(async (solution) => {
-                const [upvotes, downvotes] = await Promise.all([
-                    Vote.countDocuments({ solutionId: solution._id, vote: 'upvote' }),
-                    Vote.countDocuments({ solutionId: solution._id, vote: 'downvote' })
-                ]);
-
-                return {
-                    ...solution,
-                    upvotes,
-                    downvotes,
-                };
-            })
-        );
-
         res.status(200).json({
-            solutions: enrichedSolutions,
+            solutions,
             currentPage: page,
             totalSolutions: totalSolutions,
             totalPages: Math.ceil(totalSolutions / limit)
