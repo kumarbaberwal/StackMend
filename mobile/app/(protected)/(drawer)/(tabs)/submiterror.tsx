@@ -12,7 +12,6 @@ import {
   View,
 } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import { useSubmitErrorMutation } from '@/services/errorsApi';
 
 export default function SubmitError() {
@@ -22,7 +21,6 @@ export default function SubmitError() {
   const [tagInput, setTagInput] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [submitError, { isLoading }] = useSubmitErrorMutation();
-  const router = useRouter();
 
   const showToast = (message: string, isError = false) => {
     if (Platform.OS === 'ios') {
