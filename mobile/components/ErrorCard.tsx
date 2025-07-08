@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Image } from 'expo-image'
@@ -68,10 +68,10 @@ export default function ErrorCard({
             {/* Stats */}
             <View className="flex-row justify-end mt-4">
                 <View className="border border-neutral-300 rounded-full px-4 py-1 mr-3">
-                    <Text className="text-sm text-black">{votes} votes</Text>
+                    <Text className="text-sm text-black">{votes ? votes.length : "0"} votes</Text>
                 </View>
                 <View className="border border-neutral-300 rounded-full px-4 py-1">
-                    <Text className="text-sm text-black">{views} views</Text>
+                    <Text className="text-sm text-black">{views ? views.length : "0"} views</Text>
                 </View>
             </View>
 

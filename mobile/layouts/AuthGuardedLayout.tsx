@@ -1,8 +1,7 @@
 import { hydrateAuthFromStorage } from '@/features/auth/authSlice';
 import { RootState, useAppDispatch } from '@/store/store';
 import { SplashScreen, Stack } from 'expo-router'
-import React, { use, useEffect } from 'react'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 
@@ -36,24 +35,18 @@ export default function AuthGuardedLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView
-        className='flex-1'
-      >
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            animation: 'fade',
-          }}
-        >
-          <Stack.Protected guard={isLoggedIn}>
-            <Stack.Screen name='(protected)' />
-          </Stack.Protected>
-          <Stack.Protected guard={!isLoggedIn}>
-            <Stack.Screen name='(auth)' />
-          </Stack.Protected>
-        </Stack>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+      }}
+    >
+      <Stack.Protected guard={isLoggedIn}>
+        <Stack.Screen name='(protected)' />
+      </Stack.Protected>
+      <Stack.Protected guard={!isLoggedIn}>
+        <Stack.Screen name='(auth)' />
+      </Stack.Protected>
+    </Stack>
   )
 }

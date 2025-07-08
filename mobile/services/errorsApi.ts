@@ -99,6 +99,12 @@ export const errorApi = createApi({
       providesTags: ['Errors']
     }),
 
+
+    getDetailedErrorById: builder.query<ErrorDetailsResponse, { id: string }>({
+      query: ({ id }) => `error/detailed/${id}`,
+      providesTags: ['Errors']
+    })
+
   }),
   refetchOnFocus: true,
   refetchOnReconnect: true,
@@ -109,4 +115,5 @@ export const {
   useSubmitErrorMutation,
   useGetAllErrorsByUserQuery,
   useDeleteErrorMutation,
+  useGetDetailedErrorByIdQuery,
 } = errorApi;

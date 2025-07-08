@@ -3,15 +3,17 @@ import authReducer from '@/features/auth/authSlice'
 import { useDispatch } from 'react-redux'
 import { errorApi } from '@/services/errorsApi';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { solutionApi } from "@/services/solutionsApi";
 
 // Configure the Redux store
 export const store = configureStore({
   reducer: {
     auth: authReducer, // Add other reducers here as the app grows
     [errorApi.reducerPath]: errorApi.reducer,
+    [solutionApi.reducerPath]: solutionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(errorApi.middleware)
+    getDefaultMiddleware().concat(errorApi.middleware, solutionApi.middleware)
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

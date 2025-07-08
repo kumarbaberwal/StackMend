@@ -47,8 +47,8 @@ interface Error {
   language: string;
   tags: string[];
   userId: ErrorUser;
-  votes: number;
-  views: number;
+  votes: object[];
+  views: object[];
   createdAt: string;
   updatedAt: string;
   // __v: number;
@@ -76,9 +76,64 @@ interface ErrorByUser {
   tags: string[];
   userId: string;
   aiGeneratedSolution: string,
-  votes: number;
-  views: number;
+  votes: objects[];
+  views: objects[];
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+interface ErrorDetailsResponse {
+  error: ErrorItem;
+  solutions: SolutionItem[];
+}
+
+interface UserInfo {
+  _id: string;
+  username: string;
+  profileImage: string;
+  email?: string;
+  reputation?: number;
+  role?: string;
+}
+
+interface ErrorItem {
+  _id: string;
+  title: string;
+  description: string;
+  language: string;
+  tags: string[];
+  userId: UserInfo;
+  aiGeneratedSolution?: string;
+  votes: object[];
+  views: object[];
+  createdAt: string;
+  updatedAt: string;
+  userId: UserInfo;
+}
+
+interface SolutionItem {
+  _id: string;
+  errorId: string;
+  userId: UserInfo;
+  solution: string;
+  votes: object[];
+  createdAt: string;
+  updatedAt: string;
+  upvotes?: number;
+  isVotedByCurrentUser?: boolean;
+}
+
+interface SubmitSolutionRequest {
+  errorId: string;
+  body: {
+    solution: string;
+  };
+}
+
+interface SolutionsResponse {
+  solutions: SolutionItem[];
+  currentPage: number;
+  totalSolutions: number;
+  totalPages: number;
 }

@@ -1,9 +1,10 @@
 import ErrorCard from '@/components/ErrorCard';
 import Loader from '@/components/Loader';
 import { useGetAllErrorsQuery } from '@/services/errorsApi';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React, { useCallback, useState } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ErrorList() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,7 +50,18 @@ export default function ErrorList() {
         <FlatList
           data={data?.errors || []}  // ✅ Use merged data from RTK Query directly
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => <ErrorCard {...item} />}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() =>
+                router.push(
+                  `/error/${item._id}`
+                )
+              }
+              activeOpacity={0.9}
+            >
+
+              <ErrorCard {...item} />
+            </TouchableOpacity>)}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
