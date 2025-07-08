@@ -9,6 +9,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
   Alert,
+  Dimensions,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -27,18 +28,19 @@ import RenderHTML from 'react-native-render-html';
 
 
 dayjs.extend(relativeTime);
+const contentWidth = Dimensions.get('window').width;
 
 export default function ErrorDetailsScreen() {
   const { id } = useLocalSearchParams();
   const errorId = Array.isArray(id) ? id[0] : id; // safest
   const { data, error, isLoading, refetch } = useGetDetailedErrorByIdQuery({ id: errorId })
-  console.log("Data: ", data)
-  console.log("Error: ", error)
+  // console.log("Data: ", data)
+  // console.log("Error: ", error)
   const richText = useRef<RichEditor>(null);
   const [submitSolution, { isLoading: submittingSolution }] = useSubmitSolutionMutation();
   const [solutionText, setSolutionText] = useState('');
 
-  console.log("Solution Text: ", solutionText.trim());
+  // console.log("Solution Text: ", solutionText.trim());
   const handleSubmit = async () => {
     console.log("Solution Text: ", solutionText);
     const trimmed = solutionText.trim();
@@ -59,6 +61,7 @@ export default function ErrorDetailsScreen() {
 
       // Reset form
       setSolutionText('');
+      richText.current?.setContentHTML('')
       await refetch();
 
     } catch (error: any) {
@@ -247,7 +250,7 @@ export default function ErrorDetailsScreen() {
 
                 {/* Comment */}
                 <Text className="text-sm text-neutral-800 leading-relaxed">
-                  <RenderHTML source={{ html: item.solution }} />
+                  <RenderHTML contentWidth={contentWidth} source={{ html: item.solution }} />
                   {/* {item.solution} */}
                 </Text>
 
